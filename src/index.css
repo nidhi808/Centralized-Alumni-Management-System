@@ -1,0 +1,247 @@
+@import "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --color-primary: #086490;
+  --color-primary-light: #0a8fd4;
+  --color-accent: #f59e0b;
+  --color-accent-light: #fbbf24;
+  --color-surface: #f8fafc;
+  --color-card: #ffffff;
+  --color-text: #1a202c;
+  --color-text-muted: #64748b;
+  --animate-fadeIn: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-surface);
+  color: var(--color-text);
+}
+
+.dark body {
+  background-color: #030712;
+  color: #e5e7eb;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: #1f2937;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #94a3b8;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #64748b;
+}
+
+/* ─── PROFESSIONAL GLOW EFFECTS ────────────────────────── */
+
+/* Glow keyframes */
+@keyframes glowPulse {
+  0%, 100% { box-shadow: 0 0 8px rgba(8, 100, 144, 0.15), 0 0 20px rgba(8, 100, 144, 0.05); }
+  50% { box-shadow: 0 0 16px rgba(8, 100, 144, 0.3), 0 0 40px rgba(8, 100, 144, 0.1); }
+}
+
+@keyframes glowPulseStrong {
+  0%, 100% { box-shadow: 0 0 10px rgba(8, 100, 144, 0.2), 0 0 30px rgba(8, 100, 144, 0.1), 0 0 60px rgba(8, 100, 144, 0.05); }
+  50% { box-shadow: 0 0 20px rgba(8, 100, 144, 0.4), 0 0 50px rgba(8, 100, 144, 0.15), 0 0 80px rgba(8, 100, 144, 0.08); }
+}
+
+@keyframes borderGlow {
+  0%, 100% { border-color: rgba(8, 100, 144, 0.15); }
+  50% { border-color: rgba(8, 100, 144, 0.4); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes floatGlow {
+  0%, 100% { transform: translateY(0); filter: drop-shadow(0 4px 12px rgba(8, 100, 144, 0.2)); }
+  50% { transform: translateY(-4px); filter: drop-shadow(0 8px 20px rgba(8, 100, 144, 0.35)); }
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Card glow on hover */
+.glow-card {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(8, 100, 144, 0.08);
+}
+.glow-card:hover {
+  box-shadow: 0 0 15px rgba(8, 100, 144, 0.15), 0 0 40px rgba(8, 100, 144, 0.06), 0 8px 32px rgba(0, 0, 0, 0.08);
+  border-color: rgba(8, 100, 144, 0.25);
+  transform: translateY(-2px);
+}
+
+/* Stat card animated glow */
+.glow-stat {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.glow-stat::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, transparent 40%, rgba(8, 100, 144, 0.3) 50%, transparent 60%);
+  background-size: 200% 200%;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  -webkit-mask-composite: xor;
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+.glow-stat:hover::before {
+  opacity: 1;
+  animation: shimmer 2s linear infinite;
+}
+.glow-stat:hover {
+  box-shadow: 0 0 20px rgba(8, 100, 144, 0.12), 0 12px 40px rgba(0, 0, 0, 0.06);
+  transform: translateY(-3px);
+}
+
+/* Button glow */
+.glow-btn {
+  position: relative;
+  transition: all 0.3s ease;
+}
+.glow-btn:hover {
+  box-shadow: 0 0 15px rgba(8, 100, 144, 0.4), 0 0 40px rgba(8, 100, 144, 0.15);
+  transform: translateY(-1px);
+}
+.glow-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 0 8px rgba(8, 100, 144, 0.3);
+}
+
+/* Sidebar active item glow */
+.glow-sidebar-active {
+  animation: glowPulse 3s ease-in-out infinite;
+  background: linear-gradient(135deg, rgba(8, 100, 144, 0.15), rgba(10, 143, 212, 0.1));
+}
+
+/* Sidebar item hover glow */
+.glow-sidebar:hover {
+  box-shadow: 0 0 12px rgba(8, 100, 144, 0.12) inset;
+  background: rgba(8, 100, 144, 0.06);
+}
+
+/* Banner glow */
+.glow-banner {
+  animation: glowPulseStrong 4s ease-in-out infinite;
+}
+
+/* Live indicator glow */
+.glow-live {
+  animation: glowPulse 2s ease-in-out infinite;
+}
+
+/* Success feed header glow */
+.glow-feed {
+  position: relative;
+  overflow: hidden;
+}
+.glow-feed::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+  animation: shimmer 4s ease-in-out infinite;
+}
+
+/* Icon float glow */
+.glow-icon {
+  animation: floatGlow 3s ease-in-out infinite;
+}
+
+/* Animated gradient border */
+.glow-border-animate {
+  position: relative;
+  border: 1px solid transparent;
+  background-clip: padding-box;
+}
+.glow-border-animate::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(8, 100, 144, 0.4), rgba(10, 143, 212, 0.1), rgba(8, 100, 144, 0.4));
+  background-size: 200% 200%;
+  animation: gradientShift 4s ease infinite;
+  z-index: -1;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  -webkit-mask-composite: xor;
+  padding: 1px;
+}
+
+/* Text glow */
+.glow-text {
+  text-shadow: 0 0 10px rgba(8, 100, 144, 0.3), 0 0 30px rgba(8, 100, 144, 0.1);
+}
+
+/* Dark mode glow adjustments */
+.dark .glow-card:hover {
+  box-shadow: 0 0 20px rgba(10, 143, 212, 0.2), 0 0 50px rgba(10, 143, 212, 0.08), 0 8px 32px rgba(0, 0, 0, 0.3);
+  border-color: rgba(10, 143, 212, 0.3);
+}
+.dark .glow-stat:hover {
+  box-shadow: 0 0 25px rgba(10, 143, 212, 0.15), 0 12px 40px rgba(0, 0, 0, 0.2);
+}
+.dark .glow-btn:hover {
+  box-shadow: 0 0 20px rgba(10, 143, 212, 0.5), 0 0 50px rgba(10, 143, 212, 0.2);
+}
+
+/* Leaflet popup overrides */
+.leaflet-popup-content-wrapper {
+  border-radius: 12px !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1) !important;
+}
+
+.leaflet-popup-content {
+  margin: 12px 16px !important;
+  font-family: var(--font-sans) !important;
+}

@@ -1,0 +1,29 @@
+
+> triple-meteorite@0.0.0 build
+> vite build
+
+[36mvite v7.3.1 [32mbuilding client environment for production...[36m[39m
+transforming...
+[32m✓[39m 1205 modules transformed.
+[31m✗[39m Build failed in 18.06s
+[31merror during build:
+[31msrc/pages/admin/AdminAnalytics.jsx (9:21): "FaTrendingUp" is not exported by "node_modules/react-icons/fa/index.mjs", imported by "src/pages/admin/AdminAnalytics.jsx".[31m
+file: [36mC:/Users/Nidhi Vekhande/Downloads/triple-meteorite/Home_panal/src/pages/admin/AdminAnalytics.jsx:9:21[31m
+[33m
+ 7: } from 'recharts';
+ 8: import { getDepartmentStats, subscribeToTotalAlumni, subscribeToTotalStudents, subscribeToTotalFaculty } from '../../...
+ 9: import { FaChartBar, FaTrendingUp } from 'react-icons/fa';
+                         ^
+10: 
+11: const PIE_COLORS = ['#086490', '#0ea5e9', '#6366f1', '#f59e0b', '#10b981'];
+[31m
+    at getRollupError (file:///C:/Users/Nidhi%20Vekhande/Downloads/triple-meteorite/Home_panal/node_modules/rollup/dist/es/shared/parseAst.js:402:41)
+    at error (file:///C:/Users/Nidhi%20Vekhande/Downloads/triple-meteorite/Home_panal/node_modules/rollup/dist/es/shared/parseAst.js:398:42)
+    at Module.error (file:///C:/Users/Nidhi%20Vekhande/Downloads/triple-meteorite/Home_panal/node_modules/rollup/dist/es/shared/node-entry.js:17040:16)
+    at Module.traceVariable (file:///C:/Users/Nidhi%20Vekhande/Downloads/triple-meteorite/Home_panal/node_modules/rollup/dist/es/shared/node-entry.js:17452:29)
+    at ModuleScope.findVariable (file:///C:/Users/Nidhi%20Vekhande/Downloads/triple-meteorite/Home_panal/node_modules/rollup/dist/es/shared/node-entry.js:15070:39)
+    at FunctionScope.findVariable (file:///C:/Users/Nidhi%20Vekhande/Downloads/triple-meteorite/Home_panal/node_modules/rollup/dist/es/shared/node-entry.js:5673:38)
+    at FunctionBodyScope.findVariable (file:///C:/Users/Nidhi%20Vekhande/Downloads/triple-meteorite/Home_panal/node_modules/rollup/dist/es/shared/node-entry.js:5673:38)
+    at Identifier.bind (file:///C:/Users/Nidhi%20Vekhande/Downloads/triple-meteorite/Home_panal/node_modules/rollup/dist/es/shared/node-entry.js:5447:40)
+    at CallExpression.bind (file:///C:/Users/Nidhi%20Vekhande/Downloads/triple-meteorite/Home_panal/node_modules/rollup/dist/es/shared/node-entry.js:2825:28)
+    at CallExpression.bind (file:///C:/Users/Nidhi%20Vekhande/Downloads/triple-meteorite/Home_panal/node_modules/rollup/dist/es/shared/node-entry.js:12179:15)[39m
