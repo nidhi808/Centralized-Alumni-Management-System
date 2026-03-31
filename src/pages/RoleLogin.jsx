@@ -62,7 +62,7 @@ export default function RoleLogin() {
     const [showEmail, setShowEmail] = useState(false);
 
     // Auth logic
-    const { login } = useAuth();
+    const { login, loginWithGoogle } = useAuth();
     const [email, setEmail] = useState('');
     const [rollNumber, setRollNumber] = useState('');
     const [password, setPassword] = useState('');
@@ -97,6 +97,23 @@ export default function RoleLogin() {
         }
         setLoading(false);
     }
+
+    async function handleGoogleLogin() {
+        try {
+            setError('');
+            setLoading(true);
+            await loginWithGoogle(role);
+            if (role === 'student') navigate('/student-dashboard');
+            else if (role === 'faculty') navigate('/faculty-dashboard');
+            else if (role === 'alumni') navigate('/alumni-dashboard');
+            else if (role === 'admin') navigate('/admin-dashboard');
+            else navigate('/');
+        } catch (err) {
+            setError('Failed to log in with Google: ' + err.message);
+        }
+        setLoading(false);
+    }
+
 
     return (
         <div className="min-h-screen bg-surface dark:bg-gray-950 flex flex-col">
@@ -139,11 +156,13 @@ export default function RoleLogin() {
                         </div>
 
                         <div className="px-8 py-8">
+                            {error && <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 mb-4 rounded relative" role="alert">{error}</div>}
                             {/* Social buttons */}
                             <div className="space-y-3">
                                 {socialProviders.map((provider) => (
                                     <button
                                         key={provider.name}
+                                        onClick={provider.name === 'Google' ? handleGoogleLogin : undefined}
                                         className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl border ${provider.bg} ${provider.border} ${provider.text} ${provider.hoverBg} transition-all duration-200 font-medium text-sm shadow-sm hover:shadow-md`}
                                     >
                                         <provider.icon size={18} className={provider.iconColor} />
@@ -170,7 +189,6 @@ export default function RoleLogin() {
                                 </button>
                             ) : (
                                 <form onSubmit={handleLogin} className="space-y-4 animate-fadeIn">
-                                    {error && <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">{error}</div>}
                                     <div>
                                         <label className="block text-sm font-medium text-text dark:text-gray-300 mb-1.5">Email address</label>
                                         <div className="relative">

@@ -5,7 +5,9 @@ import {
     signInWithEmailAndPassword,
     signOut,
     onAuthStateChanged,
-    updateProfile
+    updateProfile,
+    GoogleAuthProvider,
+    signInWithPopup
 } from 'firebase/auth';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 
@@ -73,6 +75,46 @@ export function AuthProvider({ children }) {
         return signOut(auth);
     }
 
+    async function loginWithGoogle(role) {
+        const provider = new GoogleAuthProvider();
+        try {
+            const result = await signInWithPopup(auth, provider);
+            const user = result.user;
+
+            // Check if user document exists
+            const docRef = doc(db, "users", user.uid);
+            const docSnap = await getDoc(docRef);
+
+            if (!docSnap.exists()) {
+                // Determine initial status based on role
+                let initialStatus = 'approved';
+                if (role === 'alumni') initialStatus = 'pending';
+                if (role === 'student') initialStatus = 'pending_admin_approval';
+
+                // Create new user document
+                await setDoc(docRef, {
+                    email: user.email,
+                    role: role,
+                    status: initialStatus,
+                    createdAt: new Date(),
+                    displayName: user.displayName || '',
+                    photoURL: user.photoURL || ''
+                });
+                setUserRole(role);
+                setUserStatus(initialStatus);
+            } else {
+                const data = docSnap.data();
+                setUserRole(data.role);
+                setUserStatus(data.status || 'approved');
+            }
+            setCurrentUser(user);
+            return result;
+        } catch (err) {
+            console.error("Google sign-in failed", err);
+            throw err;
+        }
+    }
+
     function resetPassword(email) {
         // Implement reset password if needed
         return Promise.resolve();
@@ -131,6 +173,7 @@ export function AuthProvider({ children }) {
         logout,
         resetPassword,
         updateDisplayName,
+        loginWithGoogle,
     };
 
     return (
